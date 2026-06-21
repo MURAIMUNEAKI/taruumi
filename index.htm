@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地域のチカラ - 人と地域をつなぐ地域共創メディア</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+
+        /* 烏山ご近所めぐり用：手書き風のラフなボーダーと影 */
+        .sketch-card {
+            border: 2px solid #4a3728;
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+            background-color: #ffffff;
+            box-shadow: 3px 4px 0px 0px #4a3728;
+        }
+
+        .sketch-card-yellow {
+            border: 2px solid #4a3728;
+            border-radius: 225px 15px 255px 15px/15px 255px 15px 225px;
+            background-color: #fffdeb;
+            box-shadow: 3px 4px 0px 0px #4a3728;
+        }
+
+        /* スタンプのポンッと押されるアニメーション */
+        @keyframes stamp-pop {
+            0% {
+                transform: scale(3) rotate(-20deg);
+                opacity: 0;
+            }
+            80% {
+                transform: scale(0.9) rotate(-5deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1) rotate(-10deg);
+                opacity: 1;
+            }
+        }
+
+        .stamp-active {
+            animation: stamp-pop 0.25s ease-out forwards;
+        }
+
+        /* スクロールバー非表示 */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#f5f3ef] text-stone-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- 1. TOP VIEW (地域のチカラ トップページ) -->
+    <div id="topView" class="w-full flex-1 flex flex-col justify-between">
+        
+        <!-- HEADER -->
+        <header class="bg-[#3e2723] text-stone-100 shadow-md px-6 py-4 flex justify-between items-center border-b border-amber-950">
+            <h1 class="text-xl font-bold tracking-widest hover:cursor-pointer" onclick="showView('top')">地域のチカラ</h1>
+            
+            <div class="flex items-center space-x-3">
+                <a href="denwacho.htm" class="text-stone-300 hover:text-white text-xs font-bold border border-stone-500 rounded px-2.5 py-1.5 flex items-center space-x-1">
+                    <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                    <span>電話帳</span>
+                </a>
+                <button onclick="openProjectModal()" class="text-stone-300 hover:text-white text-xs font-bold border border-stone-500 rounded px-2.5 py-1.5 flex items-center space-x-1">
+                    <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                    <span>プロジェクト概要</span>
+                </button>
+                <button onclick="toggleMenu()" class="text-stone-300 hover:text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN BODY -->
+        <main class="w-full flex-1">
+            <!-- HERO SECTION (夕日と麦畑) -->
+            <section class="relative h-[420px] w-full flex items-center justify-center overflow-hidden">
+                <!-- 背景画像 -->
+                <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop');"></div>
+                <!-- 暗めのオーバーレイ -->
+                <div class="absolute inset-0 bg-black/35 z-0"></div>
+
+                <div class="relative z-10 text-center text-white px-4 space-y-4">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold tracking-wider drop-shadow-md">地域のチカラ</h2>
+                    <p class="text-base sm:text-lg text-stone-200/90 font-medium tracking-wide drop-shadow-xs">地域がつながる。未来が育つ。</p>
+                    
+                    <div class="pt-2 flex justify-center">
+                        <div class="bg-yellow-500/20 backdrop-blur-xs border border-yellow-400/40 rounded-full px-4 py-1 flex items-center space-x-1">
+                            <span class="text-sm">🌾</span>
+                            <span class="text-xs text-yellow-300 font-bold">聖徳学園高校 × 亜細亜大学 共同プロジェクト</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CARD NAVIGATION SECTION -->
+            <section class="max-w-6xl mx-auto px-6 py-12">
+                <div class="grid gap-8 md:grid-cols-3">
+                    
+                    <!-- CARD 1: MAP (クリックで「烏山 ご近所めぐり」へ) -->
+                    <div onclick="showView('karasuyama')" class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-200 hover:-translate-y-1 hover:cursor-pointer flex flex-col group border border-stone-200">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600&auto=format&fit=crop" alt="マップ" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between bg-[#faf9f6]">
+                            <div>
+                                <h3 class="font-bold text-lg text-stone-900 flex items-center space-x-2">
+                                    <span class="text-xl">🗺️</span>
+                                    <span>マップ</span>
+                                </h3>
+                                <p class="text-xs text-stone-500 mt-2 leading-relaxed">直売所・観光地・生産者を地図から</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center text-xs font-bold text-[#8d6e63] group-hover:text-amber-800">
+                                <span>「烏山ご近所めぐり」を開く</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2: ARTICLE -->
+                    <div onclick="location.href='kiji.htm'" class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-200 hover:-translate-y-1 hover:cursor-pointer flex flex-col group border border-stone-200">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=600&auto=format&fit=crop" alt="記事" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between bg-[#faf9f6]">
+                            <div>
+                                <h3 class="font-bold text-lg text-stone-900 flex items-center space-x-2">
+                                    <span class="text-xl">🍎</span>
+                                    <span>記事</span>
+                                </h3>
+                                <p class="text-xs text-stone-500 mt-2 leading-relaxed">生産者インタビュー・移住体験・イベント</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center text-xs font-bold text-[#8d6e63] group-hover:text-amber-800">
+                                <span>記事一覧を読む</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 3: SHOP (直売所 - chokubai.htm へ遷移) -->
+                    <div onclick="location.href='chokubai.htm'" class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-200 hover:-translate-y-1 hover:cursor-pointer flex flex-col group border border-stone-200">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=600&auto=format&fit=crop" alt="直売所" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col justify-between bg-[#faf9f6]">
+                            <div>
+                                <h3 class="font-bold text-lg text-stone-900 flex items-center space-x-2">
+                                    <span class="text-xl">🥬</span>
+                                    <span>直売所</span>
+                                </h3>
+                                <p class="text-xs text-stone-500 mt-2 leading-relaxed">新鮮な旬の食材を直接購入</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-stone-100 flex items-center text-xs font-bold text-[#8d6e63] group-hover:text-amber-800">
+                                <span>烏山地域の直売所情報を見る</span>
+                                <i data-lucide="chevron-right" class="w-4 h-4 ml-1"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-[#3e2723] text-stone-300 py-10 px-6 border-t-2 border-amber-950">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-white text-lg">地域のチカラ</h4>
+                    <p class="text-xs text-stone-400 mt-1">聖徳学園高校 × 亜細亜大学 共同地域共創メディア</p>
+                </div>
+                <div class="flex space-x-6 text-xs font-bold">
+                    <a href="denwacho.htm" class="hover:text-white">電話帳</a>
+                    <button onclick="openProjectModal()" class="hover:text-white">ビジョン</button>
+                    <a href="https://www.city.setagaya.lg.jp/" target="_blank" rel="noopener noreferrer" class="hover:text-white">世田谷区公式</a>
+                </div>
+                <p class="text-[10px] text-stone-500">© 2026 地域のチカラ プロジェクト. All Rights Reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+
+    <!-- 2. DETAIL VIEW (烏山 ご近所めぐり - 方眼ドット背景の手書き風ビュー) -->
+    <div id="detailView" class="w-full flex-1 flex flex-col justify-between hidden bg-[#faf9f6] bg-[radial-gradient(#d6d3d1_1.5px,transparent_1.5px)] bg-[length:24px_24px]">
+        
+        <!-- HEADER -->
+        <header class="sticky top-0 z-50 bg-[#76b43f] text-white border-b-4 border-[#4a3728] px-4 py-3 flex justify-between items-center shadow-sm">
+            <div class="flex items-center space-x-2">
+                <button onclick="showView('top')" class="bg-white/20 hover:bg-white/30 text-white p-1.5 rounded-lg border border-white/40 mr-1 transition transform active:scale-90">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                </button>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight">烏山 ご近所めぐり</h1>
+                    <p class="text-[9px] text-lime-100 font-medium -mt-1">食でつながる、地域の輪</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <button onclick="showView('top')" class="bg-[#fffdeb] hover:bg-amber-100 text-[#4a3728] border-2 border-[#4a3728] font-bold text-xs px-3 py-1.5 rounded-lg shadow-xs transition duration-150 transform active:scale-95 flex items-center space-x-1">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i>
+                    <span>ホームへ</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="max-w-md mx-auto px-4 mt-6 space-y-8 flex-1">
+
+            <!-- INTRO SECTION -->
+            <section class="sketch-card p-6 space-y-4 relative overflow-hidden">
+                <div class="absolute -top-6 -right-6 w-16 h-16 bg-lime-100 rounded-full opacity-60"></div>
+                
+                <h2 class="text-xl font-bold text-[#4a3728] text-center tracking-tight border-b-2 border-dashed border-stone-200 pb-3">
+                    「美味しい」は、<br>歩いて行ける距離にある。
+                </h2>
+                <div class="text-xs text-stone-600 space-y-3 leading-relaxed">
+                    <p>
+                        烏山地域の農地は、ただの生産場所ではありません。
+                        地域の防災空間であり、心を癒やす風景であり、
+                        そして何より、私たちの食卓を支える
+                        <span class="bg-yellow-100 font-bold px-1 py-0.5 rounded text-[#4a3728]">農家さんたちの情熱が詰まった場所</span>です。
+                    </p>
+                    <p>
+                        買うだけでなく、知って、関わって、応援する。
+                        そんな「新しいご近所付き合い」始めませんか？
+                    </p>
+                </div>
+            </section>
+
+            <!-- MAP SECTION -->
+            <section class="sketch-card p-4 space-y-4">
+                <h3 class="text-sm font-bold text-[#4a3728] flex items-center space-x-1.5 bg-yellow-50 px-2.5 py-1.5 rounded-lg border border-[#4a3728]/20">
+                    <span>👇</span>
+                    <span>烏山地域の農と食スポット</span>
+                </h3>
+                
+                <!-- Map Container -->
+                <div class="relative w-full aspect-square bg-[#f0f9eb] border-2 border-[#4a3728] rounded-xl overflow-hidden shadow-inner">
+                    <!-- 京王線 -->
+                    <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 border-t-4 border-dashed border-stone-400 z-0 flex items-center justify-between px-2 pointer-events-none">
+                        <span class="text-[9px] font-bold text-stone-500 bg-white/80 px-1 rounded border border-stone-300">京王線</span>
+                        <span class="text-[9px] font-bold text-stone-500 bg-white/80 px-1 rounded border border-stone-300">千歳烏山駅</span>
+                    </div>
+
+                    <!-- エリア円 -->
+                    <div class="absolute inset-4 border-4 border-dashed border-lime-400 rounded-full opacity-60 z-0 pointer-events-none"></div>
+
+                    <!-- 1. 北烏山エリア (田中) -->
+                    <button onclick="selectSpot('tanaka')" class="absolute top-[18%] right-[20%] z-10 flex flex-col items-center group">
+                        <div class="w-10 h-10 bg-white border-2 border-red-500 hover:scale-110 rounded-full flex items-center justify-center shadow-md transition duration-150">
+                            <span class="text-xl">🥬</span>
+                        </div>
+                        <span class="bg-white text-[9px] font-bold px-1.5 py-0.5 rounded border border-stone-300 shadow-xs -mt-1 z-20">田中</span>
+                    </button>
+
+                    <!-- 2. 佐藤農園 (トマト) -->
+                    <button onclick="selectSpot('sato')" class="absolute top-[22%] left-[40%] z-10 flex flex-col items-center group">
+                        <div class="w-10 h-10 bg-white border-2 border-red-500 hover:scale-110 rounded-full flex items-center justify-center shadow-md transition duration-150">
+                            <span class="text-xl">🍅</span>
+                        </div>
+                        <span class="bg-white text-[9px] font-bold px-1.5 py-0.5 rounded border border-stone-300 shadow-xs -mt-1 z-20">佐藤農園</span>
+                    </button>
+
+                    <!-- 3. 鈴木庭先 (ナス) -->
+                    <button onclick="selectSpot('suzuki')" class="absolute top-[40%] right-[12%] z-10 flex flex-col items-center group">
+                        <div class="w-10 h-10 bg-white border-2 border-red-500 hover:scale-110 rounded-full flex items-center justify-center shadow-md transition duration-150">
+                            <span class="text-xl">🍆</span>
+                        </div>
+                        <span class="bg-white text-[9px] font-bold px-1.5 py-0.5 rounded border border-stone-300 shadow-xs -mt-1 z-20">鈴木庭先</span>
+                    </button>
+
+                    <!-- 4. 山田農園 (人参) -->
+                    <button onclick="selectSpot('yamada')" class="absolute bottom-[20%] left-[28%] z-10 flex flex-col items-center group">
+                        <div class="w-10 h-10 bg-white border-2 border-red-500 hover:scale-110 rounded-full flex items-center justify-center shadow-md transition duration-150">
+                            <span class="text-xl">🥕</span>
+                        </div>
+                        <span class="bg-white text-[9px] font-bold px-1.5 py-0.5 rounded border border-stone-300 shadow-xs -mt-1 z-20">山田農園</span>
+                    </button>
+
+                    <!-- 5. 堆肥 (コンポスト) -->
+                    <button onclick="selectSpot('compost')" class="absolute bottom-[16%] right-[32%] z-10 flex flex-col items-center group">
+                        <div class="w-10 h-10 bg-white border-2 border-blue-500 hover:scale-110 rounded-full flex items-center justify-center shadow-md transition duration-150">
+                            <span class="text-xl">♻️</span>
+                        </div>
+                        <span class="bg-white text-[9px] font-bold px-1.5 py-0.5 rounded border border-stone-300 shadow-xs -mt-1 z-20">堆肥</span>
+                    </button>
+
+                    <!-- 6. Cafe / 千歳烏山駅 (中心) -->
+                    <button onclick="selectSpot('cafe')" class="absolute top-[48%] left-[48%] -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center group">
+                        <div class="w-11 h-11 bg-white border-2 border-amber-500 hover:scale-110 rounded-full flex items-center justify-center shadow-md transition duration-150">
+                            <span class="text-xl">🍝</span>
+                        </div>
+                        <span class="bg-[#fffdeb] text-[#4a3728] text-[9px] font-extrabold px-2 py-0.5 rounded-full border border-[#4a3728] shadow-xs -mt-1">Cafe</span>
+                    </button>
+
+                    <!-- エリアラベル -->
+                    <div class="absolute top-[8%] left-[32%] text-[10px] font-bold text-lime-700 pointer-events-none">北烏山エリア</div>
+                    <div class="absolute bottom-[8%] right-[22%] text-[10px] font-bold text-lime-700 pointer-events-none">南烏山エリア</div>
+                </div>
+
+                <!-- Spot Details Output Area -->
+                <div id="spotDetails" class="sketch-card-yellow p-4 transition duration-200 min-h-[90px] flex items-center justify-center">
+                    <p class="text-xs text-stone-500 text-center flex flex-col items-center space-y-1">
+                        <i data-lucide="info" class="w-5 h-5 text-[#4a3728]"></i>
+                        <span>マップ上のスポットをタップすると、<br>詳しい情報が表示されます。</span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- CYCLE SECTION -->
+            <section class="sketch-card-yellow p-6 space-y-4">
+                <h3 class="text-lg font-bold text-[#4a3728] text-center">烏山の食のサイクル</h3>
+                
+                <div class="grid grid-cols-2 gap-y-6 gap-x-2 relative py-4">
+                    <!-- 1. 育てる -->
+                    <div class="flex flex-col items-center text-center space-y-1">
+                        <span class="text-2xl">🌱</span>
+                        <h4 class="text-xs font-bold text-[#4a3728]">育てる</h4>
+                        <p class="text-[10px] text-stone-500">地元の農家さん</p>
+                    </div>
+
+                    <!-- 2. 買う -->
+                    <div class="flex flex-col items-center text-center space-y-1">
+                        <span class="text-2xl">🛒</span>
+                        <h4 class="text-xs font-bold text-[#4a3728]">買う</h4>
+                        <p class="text-[10px] text-stone-500">直売所・協力店</p>
+                    </div>
+
+                    <!-- 3. 食べる -->
+                    <div class="flex flex-col items-center text-center space-y-1">
+                        <span class="text-2xl">😋</span>
+                        <h4 class="text-xs font-bold text-[#4a3728]">食べる</h4>
+                        <p class="text-[10px] text-stone-500">食卓・レストラン</p>
+                    </div>
+
+                    <!-- 4. 還す -->
+                    <div class="flex flex-col items-center text-center space-y-1">
+                        <span class="text-2xl">♻️</span>
+                        <h4 class="text-xs font-bold text-[#4a3728]">還す</h4>
+                        <p class="text-[10px] text-stone-500">コンポスト・堆肥</p>
+                    </div>
+
+                    <!-- 矢印たち -->
+                    <div class="absolute top-[18%] left-[45%] text-[#4a3728] opacity-60">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </div>
+                    <div class="absolute top-[48%] left-[72%] text-[#4a3728] opacity-60">
+                        <i data-lucide="arrow-down" class="w-5 h-5"></i>
+                    </div>
+                    <div class="absolute bottom-[18%] left-[45%] text-[#4a3728] opacity-60">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </div>
+                    <div class="absolute top-[48%] left-[22%] text-[#4a3728] opacity-60">
+                        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+                    </div>
+                </div>
+
+                <p class="text-[11px] font-bold text-center text-stone-600 bg-white/70 py-1.5 rounded-lg border border-dashed border-[#4a3728]/20">
+                    このサイクルが回ると、街はもっと元気になる！
+                </p>
+            </section>
+
+            <!-- STAMP LOG SECTION -->
+            <section class="sketch-card p-6 space-y-4">
+                <h3 class="text-sm font-bold text-[#4a3728] text-center border-b-2 border-[#4a3728]/10 pb-2">
+                    食べた！応援した！ログ
+                </h3>
+                
+                <div class="grid grid-cols-4 gap-2 pt-2">
+                    <!-- Stamp 1 -->
+                    <div class="flex flex-col items-center justify-between h-20 relative">
+                        <div class="w-12 h-12 rounded-full border-2 border-dashed border-[#4a3728]/30 flex items-center justify-center bg-stone-50">
+                            <div class="absolute w-12 h-12 rounded-full border-2 border-double border-red-600 bg-red-50/90 text-red-600 font-black text-sm flex items-center justify-center rotate-[-10deg] shadow-xs select-none">
+                                済
+                            </div>
+                        </div>
+                        <span class="text-[8px] font-bold text-stone-500 whitespace-nowrap">はじめに</span>
+                    </div>
+
+                    <!-- Stamp 2 -->
+                    <button onclick="toggleStamp(this)" class="flex flex-col items-center justify-between h-20 relative group">
+                        <div class="w-12 h-12 rounded-full border-2 border-dashed border-[#4a3728]/30 group-hover:border-[#4a3728] flex items-center justify-center bg-stone-50 transition relative">
+                            <div class="stamp-mark hidden absolute w-12 h-12 rounded-full border-2 border-double border-red-600 bg-red-50/90 text-red-600 font-black text-sm flex items-center justify-center">
+                                済
+                            </div>
+                            <span class="text-xs text-stone-300 group-hover:text-stone-400 pointer-events-none">🍅</span>
+                        </div>
+                        <span class="text-[8px] font-bold text-stone-500 whitespace-nowrap">佐藤農園</span>
+                    </button>
+
+                    <!-- Stamp 3 -->
+                    <button onclick="toggleStamp(this)" class="flex flex-col items-center justify-between h-20 relative group">
+                        <div class="w-12 h-12 rounded-full border-2 border-dashed border-[#4a3728]/30 group-hover:border-[#4a3728] flex items-center justify-center bg-stone-50 transition relative">
+                            <div class="stamp-mark hidden absolute w-12 h-12 rounded-full border-2 border-double border-red-600 bg-red-50/90 text-red-600 font-black text-sm flex items-center justify-center">
+                                済
+                            </div>
+                            <span class="text-xs text-stone-300 group-hover:text-stone-400 pointer-events-none">🍝</span>
+                        </div>
+                        <span class="text-[8px] font-bold text-stone-500 whitespace-nowrap">カフェ</span>
+                    </button>
+
+                    <!-- Stamp 4 -->
+                    <button onclick="toggleStamp(this)" class="flex flex-col items-center justify-between h-20 relative group">
+                        <div class="w-12 h-12 rounded-full border-2 border-dashed border-[#4a3728]/30 group-hover:border-[#4a3728] flex items-center justify-center bg-stone-50 transition relative">
+                            <div class="stamp-mark hidden absolute w-12 h-12 rounded-full border-2 border-double border-red-600 bg-red-50/90 text-red-600 font-black text-sm flex items-center justify-center">
+                                済
+                            </div>
+                            <span class="text-xs text-stone-300 group-hover:text-stone-400 pointer-events-none">♻️</span>
+                        </div>
+                        <span class="text-[8px] font-bold text-stone-500 whitespace-nowrap">堆肥化</span>
+                    </button>
+                </div>
+                <p class="text-[9px] text-stone-400 text-center pt-2">
+                    ※農園やカフェを訪れたら、マークをタップしてスタンプを押そう！
+                </p>
+            </section>
+
+            <!-- RESOURCES & ACTION LINK SECTION -->
+            <section class="sketch-card p-4 space-y-4">
+                <h3 class="text-base font-bold text-[#4a3728] text-center border-b-2 border-[#4a3728]/10 pb-2">
+                    地域農業をもっと深く知る・応援する
+                </h3>
+
+                <div class="space-y-4">
+                    <!-- Link 1 -->
+                    <div class="flex items-center space-x-3 bg-white p-2.5 rounded-lg border border-[#4a3728]/20 shadow-xs">
+                        <div class="w-16 h-16 bg-stone-100 flex-shrink-0 border border-stone-200 rounded p-1 flex items-center justify-center">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.tokyo-coop.or.jp/enno/" alt="東京援農QR" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 space-y-0.5">
+                            <h4 class="text-xs font-bold text-[#4a3728] hover:underline">
+                                <a href="https://www.tokyo-coop.or.jp/enno/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1">
+                                    <span>東京援農ボランティア</span>
+                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                </a>
+                            </h4>
+                            <p class="text-[10px] text-stone-500 leading-tight">「農作業を手伝ってみたい！」という方はこちら。</p>
+                        </div>
+                    </div>
+
+                    <!-- Link 2 -->
+                    <div class="flex items-center space-x-3 bg-white p-2.5 rounded-lg border border-[#4a3728]/20 shadow-xs">
+                        <div class="w-16 h-16 bg-stone-100 flex-shrink-0 border border-stone-200 rounded p-1 flex items-center justify-center">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.ja-tokyochuo.or.jp/" alt="JA東京中央QR" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 space-y-0.5">
+                            <h4 class="text-xs font-bold text-[#4a3728] hover:underline">
+                                <a href="https://www.ja-tokyochuo.or.jp/" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1">
+                                    <span>JA東京中央 ファーマーズマーケット</span>
+                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                </a>
+                            </h4>
+                            <p class="text-[10px] text-stone-500 leading-tight">烏山地域の野菜が勢揃い！直売所を巡る時間がない時も便利です。</p>
+                        </div>
+                    </div>
+
+                    <!-- Link 3 -->
+                    <div class="flex items-center space-x-3 bg-white p-2.5 rounded-lg border border-[#4a3728]/20 shadow-xs">
+                        <div class="w-16 h-16 bg-stone-100 flex-shrink-0 border border-stone-200 rounded p-1 flex items-center justify-center">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.city.setagaya.lg.jp/theme/011/001/index.html" alt="せたがやそだちQR" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 space-y-0.5">
+                            <h4 class="text-xs font-bold text-[#4a3728] hover:underline">
+                                <a href="https://www.city.setagaya.lg.jp/theme/011/001/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1">
+                                    <span>せたがやそだち</span>
+                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                </a>
+                            </h4>
+                            <p class="text-[10px] text-stone-500 leading-tight">世田谷区の農産物ブランドサイト。旬の野菜情報はこちら。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-16 py-8 border-t border-[#4a3728]/10 bg-stone-100 text-center space-y-2">
+            <p class="text-xs font-bold text-stone-600">地域のチカラ × 烏山ご近所めぐり</p>
+            <button onclick="showView('top')" class="text-[10px] text-amber-900 font-bold hover:underline">地域のチカラ ホームに戻る</button>
+            <p class="text-[10px] text-stone-400">© 2026 地域のチカラ プロジェクト All Rights Reserved.</p>
+        </footer>
+
+    </div>
+
+
+    <!-- PROJECT VISION MODAL (PDF CONTENT INHERITED) -->
+    <div id="projectModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="sketch-card max-w-sm w-full max-h-[85vh] overflow-y-auto p-6 space-y-4">
+            <div class="flex justify-between items-start border-b-2 border-dashed border-stone-200 pb-2">
+                <div>
+                    <h4 class="text-base font-bold text-[#4a3728]">「地域のチカラ」プロジェクト</h4>
+                    <p class="text-[10px] text-stone-500">～人と地域をつなぐ地域共創メディア～</p>
+                </div>
+                <button onclick="closeProjectModal()" class="text-stone-400 hover:text-stone-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="text-xs text-stone-600 space-y-4 leading-relaxed">
+                <div>
+                    <h5 class="font-bold text-[#76b43f] border-l-4 border-[#76b43f] pl-1.5 mb-1 text-[11px]">本プロジェクトの目的</h5>
+                    <p>
+                        「地域のチカラ」を通じて、地域で活躍する人々や文化、伝統、イベント、第一次産業などの魅力を発信し、人と地域をつなぐ地域共創メディアを構築することを目指しています。
+                    </p>
+                </div>
+
+                <div>
+                    <h5 class="font-bold text-[#76b43f] border-l-4 border-[#76b43f] pl-1.5 mb-1 text-[11px]">アプローチ</h5>
+                    <p>
+                        地域新聞、動画制作、SNS、そしてこのWebアプリを立体的に組み合わせることで、単なる情報発信にとどまらない、新しい地域体験（「知る」「応援する」「関わる」）を創出します。
+                    </p>
+                </div>
+
+                <div class="bg-yellow-50 p-2.5 rounded-lg border border-[#4a3728]/10 text-[10px] space-y-1">
+                    <p class="font-bold text-stone-700">運営体について：</p>
+                    <p>高校生と大学生の自由な発想や行動力を生かした運営チームです。</p>
+                    <p class="font-semibold text-[#4a3728] mt-1">
+                        ・亜細亜大学：樽海 恒汰<br>
+                        ・聖徳学園高等学校：小杉 悠人
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="closeProjectModal()" class="w-full bg-[#76b43f] hover:bg-[#609930] text-white font-bold text-xs py-2 rounded-lg border-2 border-[#4a3728] shadow-xs transition transform active:scale-95">
+                閉じる
+            </button>
+        </div>
+    </div>
+
+    <!-- DEMO WELCOME MODAL (ON LOAD) -->
+    <div id="welcomeModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 border-2 border-stone-800 shadow-2xl space-y-4 text-center">
+            <div class="flex flex-col items-center space-y-2">
+                <span class="text-3xl">⚠️</span>
+                <h4 class="text-lg font-bold text-stone-900">デモサイトのご案内</h4>
+            </div>
+            <p class="text-xs text-stone-600 leading-relaxed">
+                こちらは学生が学習用に作るためのサイトのデモです。内容は事実とは違うのでご了承ください。
+            </p>
+            <button onclick="closeWelcomeModal()" class="w-full bg-[#3e2723] hover:bg-[#502d18] text-white font-bold text-sm py-2.5 rounded-lg transition transform active:scale-95">
+                了解した
+            </button>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT FOR ROUTING AND INTERACTION -->
+    <script>
+        // View Router
+        function showView(viewId) {
+            const topView = document.getElementById('topView');
+            const detailView = document.getElementById('detailView');
+            
+            if (viewId === 'top') {
+                topView.classList.remove('hidden');
+                detailView.classList.add('hidden');
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            } else if (viewId === 'karasuyama') {
+                topView.classList.add('hidden');
+                detailView.classList.remove('hidden');
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+        }
+
+        // Spot Data Database
+        const spots = {
+            tanaka: {
+                title: "🥬 田中 (北烏山エリア)",
+                desc: "北烏山エリアの畑で、美味しいキャベツや小松菜など様々な葉物野菜を育てています。直売所も設置されており、毎朝採れたての野菜が並びます。",
+                image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?q=80&w=300&auto=format&fit=crop"
+            },
+            sato: {
+                title: "🍅 佐藤農園",
+                desc: "みずみずしくて甘い絶品トマトが有名な農園です。太陽の光をたっぷり浴びて育てられた真っ赤なトマトは、地域一番の人気商品です。",
+                image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&w=300&auto=format&fit=crop"
+            },
+            suzuki: {
+                title: "🍆 鈴木庭先",
+                desc: "ジューシーで柔らかいナスが自慢の庭先販売スポットです。昔ながら of 農地が残る烏山ならではの、のどかな雰囲気も魅力の一つです。",
+                image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?q=80&w=300&auto=format&fit=crop"
+            },
+            yamada: {
+                title: "🥕 山田農園",
+                desc: "根菜類を中心に栽培している農園。特に甘みの強い人参は、子供たちにも大人気です。地域の農業体験イベントなども積極的に受け入れています。",
+                image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?q=80&w=300&auto=format&fit=crop"
+            },
+            compost: {
+                title: "♻️ 堆肥 (コンポスト・南烏山)",
+                desc: "地域の「食のサイクル」を支える堆肥化スポットです。カフェや一般家庭から集まった生ごみを堆肥にし、再び地元の農家さんへと届けて活用しています。",
+                image: "https://images.unsplash.com/photo-1534951009808-766178b47a4f?q=80&w=300&auto=format&fit=crop"
+            },
+            cafe: {
+                title: "🍝 千歳烏山駅前 Cafe",
+                desc: "地元の佐藤農園や山田農園から仕入れた新鮮な野菜をたっぷり使った料理やパスタを提供する協力カフェ。地域の人々のコミュニティの場でもあります。",
+                image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=300&auto=format&fit=crop"
+            }
+        };
+
+        // Click handler for spots
+        function selectSpot(key) {
+            const detailContainer = document.getElementById('spotDetails');
+            const data = spots[key];
+            if (data) {
+                detailContainer.innerHTML = `
+                    <div class="flex items-center space-x-3 w-full text-left">
+                        <div class="w-16 h-16 bg-stone-100 rounded-lg overflow-hidden flex-shrink-0 border border-[#4a3728]/20 shadow-xs">
+                            <img src="${data.image}" alt="${data.title}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0 space-y-0.5">
+                            <h4 class="text-xs font-bold text-[#4a3728] border-b border-[#4a3728]/10 pb-0.5 flex items-center justify-between">
+                                <span>${data.title}</span>
+                                <span class="text-[8px] bg-lime-100 text-lime-800 font-extrabold px-1 rounded border border-[#4a3728]/10">スポット情報</span>
+                            </h4>
+                            <p class="text-[10px] text-stone-600 leading-tight line-clamp-2 pt-0.5">${data.desc}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Toggle stamps
+        function toggleStamp(btn) {
+            const stamp = btn.querySelector('.stamp-mark');
+            if (stamp) {
+                if (stamp.classList.contains('hidden')) {
+                    stamp.classList.remove('hidden');
+                    stamp.classList.add('stamp-active');
+                } else {
+                    stamp.classList.add('hidden');
+                    stamp.classList.remove('stamp-active');
+                }
+            }
+        }
+
+        // Menu Toggle
+        function toggleMenu() {
+            openProjectModal(); // ビジョンモーダルをメニューとして開く
+        }
+
+        // Vision Modal handlers
+        function openProjectModal() {
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        // Welcome Modal handler
+        function closeWelcomeModal() {
+            document.getElementById('welcomeModal').classList.add('hidden');
+        }
+
+        // Init Lucide
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

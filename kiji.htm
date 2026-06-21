@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地域のチカラ - 記事一覧</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#f5f3ef] text-stone-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER -->
+    <header class="bg-[#3e2723] text-stone-100 shadow-md px-6 py-4 flex justify-between items-center border-b border-amber-950">
+        <div class="flex items-center space-x-3">
+            <a href="index.htm" class="bg-white/10 hover:bg-white/20 text-white p-1.5 rounded border border-white/30 transition transform active:scale-90 flex items-center justify-center">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </a>
+            <h1 class="text-xl font-bold tracking-widest hover:cursor-pointer"><a href="index.htm">地域のチカラ</a></h1>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+            <a href="denwacho.htm" class="text-stone-300 hover:text-white text-xs font-bold border border-stone-500 rounded px-2.5 py-1.5 flex items-center space-x-1">
+                <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                <span>電話帳</span>
+            </a>
+            <button onclick="openProjectModal()" class="text-stone-300 hover:text-white text-xs font-bold border border-stone-500 rounded px-2.5 py-1.5 flex items-center space-x-1">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                <span>プロジェクト概要</span>
+            </button>
+            <a href="index.htm" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold text-xs px-3 py-1.5 rounded transition">
+                ホームへ戻る
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="max-w-4xl mx-auto px-6 py-10 flex-1 w-full space-y-8">
+        
+        <!-- SECTION TITLE -->
+        <div class="border-b-2 border-[#3e2723]/10 pb-4">
+            <h2 class="text-2xl font-black text-[#3e2723] flex items-center space-x-2">
+                <span>📝</span>
+                <span>地域共創メディア 記事一覧</span>
+            </h2>
+            <p class="text-xs text-stone-500 mt-1">生産者インタビュー、移住体験談、イベントレポートをお届けします。</p>
+        </div>
+
+        <!-- ARTICLES GRID -->
+        <div class="grid gap-8 md:grid-cols-2">
+            
+            <!-- Article 1 -->
+            <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1595855759920-86582396756a?q=80&w=600&auto=format&fit=crop" alt="田中農家" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm">生産者インタビュー</span>
+                    </div>
+                    <div class="p-6 space-y-2">
+                        <span class="text-[10px] text-stone-400 font-mono">2026.06.18</span>
+                        <h3 class="font-bold text-stone-900 text-base hover:text-amber-800">
+                            <a href="#">【インタビュー】北烏山の伝統を守り、未来へつなぐ葉物農家・田中さんの想い</a>
+                        </h3>
+                        <p class="text-xs text-stone-500 leading-relaxed">
+                            千歳烏山駅から徒歩圏内に広がるのどかな畑。ここで長年、キャベツや小松菜などの野菜を育てている田中さんにお話を伺いました。「美味しいものを近くの人に届けたい」そのシンプルで熱い情熱に迫ります。
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center text-xs">
+                    <span class="text-stone-400">著者: 樽海 恒汰</span>
+                    <a href="#" class="text-amber-800 font-bold hover:underline flex items-center">
+                        <span>続きを読む</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=600&auto=format&fit=crop" alt="ボランティア" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm">ボランティア体験</span>
+                    </div>
+                    <div class="p-6 space-y-2">
+                        <span class="text-[10px] text-stone-400 font-mono">2026.06.12</span>
+                        <h3 class="font-bold text-stone-900 text-base hover:text-amber-800">
+                            <a href="#">【体験レポート】都会のすぐ近くにある自然！週末農業ボランティアで心も体もリフレッシュ！</a>
+                        </h3>
+                        <p class="text-xs text-stone-500 leading-relaxed">
+                            「東京援農ボランティア」を利用して、実際に畑の収穫作業や土いじりをお手伝いした学生メンバーのレポート。農家さんと触れ合い、自分の手で収穫する喜びは他では味わえない体験でした。
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center text-xs">
+                    <span class="text-stone-400">著者: 小杉 悠人</span>
+                    <a href="#" class="text-amber-800 font-bold hover:underline flex items-center">
+                        <span>続きを読む</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=600&auto=format&fit=crop" alt="カフェ" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm">イベント</span>
+                    </div>
+                    <div class="p-6 space-y-2">
+                        <span class="text-[10px] text-stone-400 font-mono">2026.06.05</span>
+                        <h3 class="font-bold text-stone-900 text-base hover:text-amber-800">
+                            <a href="#">【イベント】千歳烏山駅前カフェで地元野菜を使った「コラボ夏メニュー発表会」が開催！</a>
+                        </h3>
+                        <p class="text-xs text-stone-500 leading-relaxed">
+                            佐藤農園のトマトと鈴木庭先のナスをふんだんに使用した特製パスタを提供するローカルコラボ。試食会は大盛況で、地域の方々が「地元の食」を囲んで賑やかな対話を楽しみました。
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center text-xs">
+                    <span class="text-stone-400">著者: 地域のチカラ編集部</span>
+                    <a href="#" class="text-amber-800 font-bold hover:underline flex items-center">
+                        <span>続きを読む</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1534951009808-766178b47a4f?q=80&w=600&auto=format&fit=crop" alt="コンポスト" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 bg-lime-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm">コラム</span>
+                    </div>
+                    <div class="p-6 space-y-2">
+                        <span class="text-[10px] text-stone-400 font-mono">2026.05.28</span>
+                        <h3 class="font-bold text-stone-900 text-base hover:text-amber-800">
+                            <a href="#">【コラム】生ごみが美味しい野菜に変わるまで。烏山で始まる「コンポスト（堆肥化）の輪」</a>
+                        </h3>
+                        <p class="text-xs text-stone-500 leading-relaxed">
+                            私たちが食べた食卓の残渣が、地域の堆肥センターを通じて再び土に還り、新しい野菜を育てる。この美しい資源循環の取り組み「烏山の食のサイクル」の現在地をわかりやすく解説します。
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 flex justify-between items-center text-xs">
+                    <span class="text-stone-400">著者: 樽海 恒汰</span>
+                    <a href="#" class="text-amber-800 font-bold hover:underline flex items-center">
+                        <span>続きを読む</span>
+                        <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
+                    </a>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#3e2723] text-stone-300 py-10 px-6 border-t-2 border-amber-950 mt-12">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <h4 class="font-bold text-white text-lg">地域のチカラ</h4>
+                <p class="text-xs text-stone-400 mt-1">聖徳学園高校 × 亜細亜大学 共同地域共創メディア</p>
+            </div>
+            <div class="flex space-x-6 text-xs font-bold">
+                <a href="denwacho.htm" class="hover:text-white">電話帳</a>
+                <button onclick="openProjectModal()" class="hover:text-white">ビジョン</button>
+                <a href="index.htm" class="hover:text-white">ホームに戻る</a>
+            </div>
+            <p class="text-[10px] text-stone-500">© 2026 地域のチカラ プロジェクト. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- PROJECT VISION MODAL -->
+    <div id="projectModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full max-h-[85vh] overflow-y-auto p-6 border-2 border-stone-800 shadow-xl space-y-4">
+            <div class="flex justify-between items-start border-b border-dashed border-stone-200 pb-2">
+                <div>
+                    <h4 class="text-base font-bold text-stone-900">「地域のチカラ」プロジェクト</h4>
+                    <p class="text-[10px] text-stone-500">～人と地域をつなぐ地域共創メディア～</p>
+                </div>
+                <button onclick="closeProjectModal()" class="text-stone-400 hover:text-stone-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="text-xs text-stone-600 space-y-4 leading-relaxed">
+                <div>
+                    <h5 class="font-bold text-emerald-600 border-l-4 border-emerald-600 pl-1.5 mb-1 text-[11px]">本プロジェクトの目的</h5>
+                    <p>
+                        「地域のチカラ」を通じて、地域で活躍する人々や文化、伝統、イベント、第一次産業などの魅力を発信し、人と地域をつなぐ地域共創メディアを構築することを目指しています。
+                    </p>
+                </div>
+
+                <div>
+                    <h5 class="font-bold text-emerald-600 border-l-4 border-emerald-600 pl-1.5 mb-1 text-[11px]">アプローチ</h5>
+                    <p>
+                        地域新聞、動画制作、SNS、そしてこのWebアプリを立体的に組み合わせることで、単なる情報発信にとどまらない、新しい地域体験（「知る」「応援する」「関わる」）を創出します。
+                    </p>
+                </div>
+
+                <div class="bg-yellow-50 p-2.5 rounded-lg border border-yellow-200 text-[10px] space-y-1">
+                    <p class="font-bold text-stone-700">運営体について：</p>
+                    <p>高校生と大学生の自由な発想や行動力を生かした運営チームです。</p>
+                    <p class="font-semibold text-amber-950 mt-1">
+                        ・亜細亜大学：樽海 恒汰<br>
+                        ・聖徳学園高等学校：小杉 悠人
+                    </p>
+                </div>
+            </div>
+
+            <button onclick="closeProjectModal()" class="w-full bg-[#3e2723] hover:bg-amber-950 text-white font-bold text-xs py-2 rounded-lg transition transform active:scale-95">
+                閉じる
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function openProjectModal() {
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

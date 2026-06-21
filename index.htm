@@ -543,7 +543,7 @@
     </div>
 
     <!-- DEMO WELCOME MODAL (ON LOAD) -->
-    <div id="welcomeModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+    <div id="welcomeModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 border-2 border-stone-800 shadow-2xl space-y-4 text-center">
             <div class="flex flex-col items-center space-y-2">
                 <span class="text-3xl">⚠️</span>
@@ -665,11 +665,17 @@
         // Welcome Modal handler
         function closeWelcomeModal() {
             document.getElementById('welcomeModal').classList.add('hidden');
+            sessionStorage.setItem('demo_acknowledged', 'true');
         }
 
-        // Init Lucide
+        // Init Lucide and Check Welcome Modal
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
+            
+            // Check if demo has been acknowledged in this session
+            if (!sessionStorage.getItem('demo_acknowledged')) {
+                document.getElementById('welcomeModal').classList.remove('hidden');
+            }
         });
     </script>
 </body>
